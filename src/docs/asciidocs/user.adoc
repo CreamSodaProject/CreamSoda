@@ -1,0 +1,37 @@
+== 유저 회원가입 API
+
+=== 요청 정보 [HTTP]
+include::{snippets}/user-join/http-request.adoc[]
+
+=== 요청 정보 [Path Parameter]
+include::{snippets}/user-join/httpie-request.adoc[]
+https://xxx[]
+=== 요청 필드 [Fields]
+include::{snippets}/user-join/request-fields.adoc[]
+
+=== 응답 정보 [성공]
+
+=== 응답 정보 [HTTP]
+include::{snippets}/user-join/http-response.adoc[]
+
+=== 응답 정보 [Field]
+include::{snippets}/user-join/response-fields.adoc[]
+
+== 유저 로그인 API
+
+=== 요청 정보 [HTTP]
+include::{snippets}/user-login/http-request.adoc[]
+
+=== 요청 정보 [Path Parameter]
+include::{snippets}/user-login/httpie-request.adoc[]
+
+=== 요청 필드 [Fields]
+include::{snippets}/user-login/request-fields.adoc[]
+
+=== 응답 정보 [성공]
+
+=== 응답 정보 [HTTP]
+include::{snippets}/user-login/http-response.adoc[]
+
+=== 응답 정보 [Field]
+include::{snippets}/user-login/response-fields.adoc[]
