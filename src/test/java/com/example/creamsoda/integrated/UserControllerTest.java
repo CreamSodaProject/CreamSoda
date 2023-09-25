@@ -21,7 +21,7 @@ public class UserControllerTest extends AbstractIntegrated{
     @DisplayName("유저 회원가입 테스트")
     void userJoin() throws Exception {
 
-        UserJoinRequest joinDTO = new UserJoinRequest("ho@naver.com", "1234", "ho", "010-1234-5678");
+        UserJoinRequest joinDTO = new UserJoinRequest("ho@naver.com", "1234", "ho");
 
 
         ResultActions perform = this.mockMvc.perform(
@@ -76,7 +76,6 @@ public class UserControllerTest extends AbstractIntegrated{
                 fieldWithPath("email").description("이메일"),
                 fieldWithPath("password").description("비밀번호"),
                 fieldWithPath("name").description("사용자이름"),
-                fieldWithPath("tel").description("전화번호"),
         };
     }
     private FieldDescriptor[] getUserJoinField() {
@@ -85,7 +84,6 @@ public class UserControllerTest extends AbstractIntegrated{
                 fieldWithPath("email").description("유저 이메일"),
                 fieldWithPath("password").description("유저 비밀번호"),
                 fieldWithPath("name").description("유저 이름"),
-                fieldWithPath("tel").description("유저 이름"),
                 fieldWithPath("role").description("유저 권한"),
                 fieldWithPath("status").description("유저 활성화상태"),
                 fieldWithPath("createdDate").description("가입 시간"),

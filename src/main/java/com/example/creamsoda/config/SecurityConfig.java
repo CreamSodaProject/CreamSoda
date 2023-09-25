@@ -13,6 +13,7 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -23,7 +24,6 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @Slf4j
 @Configuration
-@EnableWebSecurity
 public class SecurityConfig {
 
     @Bean
@@ -38,7 +38,7 @@ public class SecurityConfig {
     }
 
     // JWT 필터 등록이 필요함
-    public class CustomSecurityFilterManager extends AbstractHttpConfigurer<CustomSecurityFilterManager, HttpSecurity> {
+    public static class CustomSecurityFilterManager extends AbstractHttpConfigurer<CustomSecurityFilterManager, HttpSecurity> {
         @Override
         public void configure(HttpSecurity builder) throws Exception {
             AuthenticationManager authenticationManager = builder.getSharedObject(AuthenticationManager.class);
@@ -56,13 +56,15 @@ public class SecurityConfig {
         // ssr은 기본적으로 csrf 토큰을 이용하지 않지만 적용할 수 있다.
 
         // 2. 같은 도메인에서 iframe 허용 (최소한 권한)
-        http.headers().frameOptions().sameOrigin();
+        http.headers(
+                hshcf -> hshcf.frameOptions(HeadersConfigurer .FrameOptionsConfig::disable));
 
         // 3. cors 재설정
-        http.cors().configurationSource(configurationSource());
+        http.cors(hsccf -> hsccf.configurationSource(configurationSource()));
+//        http.cors().configurationSource(configurationSource());
 
         // 4. JSESSIONID 응답 x
-        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        http.sessionManagement(hssmcf -> hssmcf.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         /*
          * 또는
          * spring:
@@ -74,11 +76,11 @@ public class SecurityConfig {
         // 5. Form 로긴 해제
         // OAuth2, SAML 또는 JWT 토큰과 같은 다른 인증 메커니즘을 사용하려는 경우.
         // ajax 요청 처리할 경우
-        http.formLogin().disable();
+        http.formLogin(AbstractHttpConfigurer::disable);
 
         // 6. http bagic 인증 해제 - 모든 페이지마다 로그인을 해야함.. 안전하지만 너무 불편하다
         // BasinAuthenticationFilter 해제
-//         http.httpBasic().disable();
+         http.httpBasic(AbstractHttpConfigurer::disable);
 
         // 2가지 방법 disable 안하고 addFilterAt 사용해서 바꿔치는 방법도 있음
         // disable 하고 다시 등록하는 방법도 있고
@@ -90,7 +92,7 @@ public class SecurityConfig {
 
         // 9. 인증 실패 처리
         http
-            .exceptionHandling().authenticationEntryPoint((request, response, authException) -> {
+            .exceptionHandling(hsehcf -> hsehcf.authenticationEntryPoint((request, response, authException) -> {
                 log.warn("인증되지 않은 사용자가 자원에 접근하려 합니다 : "+authException.getMessage());
                 MyFilterResponseUtil.result(HttpStatus.UNAUTHORIZED, request, response, new Exception401("인증되지 않았습니다"));
             })
@@ -98,7 +100,7 @@ public class SecurityConfig {
             .accessDeniedHandler((request, response, accessDeniedException) -> {
                 log.warn("권한이 없는 사용자가 자원에 접근하려 합니다 : "+accessDeniedException.getMessage());
                 MyFilterResponseUtil.result(HttpStatus.FORBIDDEN, request, response, new Exception403("권한이 없습니다."));
-            });
+            }));
 
 
         // // Form 로그인 설정

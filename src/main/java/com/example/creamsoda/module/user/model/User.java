@@ -20,16 +20,10 @@ public class User extends BaseTime {
     private String email;
     private String password;
     private String name;
-    private String tel;
-    @Enumerated(EnumType.STRING)
-    private UserStatus status;
-    @Enumerated(EnumType.STRING)
-    private RoleType role;
 
-    public User(String email, String password, String name, String tel) {
+    public User(String email, String password, String name) {
         this.email = email;
         this.password = password;
         this.name = name;
-        this.tel = tel;
     }
 }

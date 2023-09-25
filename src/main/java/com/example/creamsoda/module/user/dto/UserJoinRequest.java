@@ -11,12 +11,9 @@ public record UserJoinRequest(
         @NotBlank(message = "비밀번호 입력은 필수 입니다.")
         String password,
         @NotBlank(message = "이름 입력은 필수 입니다.")
-        String name,
-        @Pattern(regexp = "^01(?:0|1|[6-9])[.-]?(\\d{3}|\\d{4})[.-]?(\\d{4})$", message = "10 ~ 11 자리의 숫자만 입력 가능합니다.")
-        String tel
-
+        String name
 ) {
     public User toEntity(String EncoderPassword) {
-        return new User(email, EncoderPassword, name, tel);
+        return new User(email, EncoderPassword, name);
     }
 }
