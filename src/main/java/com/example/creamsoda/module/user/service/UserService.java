@@ -24,8 +24,8 @@ public class UserService {
 
     @Transactional
     public User userJoin(UserJoinRequest request) {
-        String encodePassword = passwordEncoder.encode(request.password());
-        return userRepository.save(request.toEntity(encodePassword));
+//        String encodePassword = passwordEncoder.encode(request.password());
+        return userRepository.save(request.toEntity());
 
     }
 

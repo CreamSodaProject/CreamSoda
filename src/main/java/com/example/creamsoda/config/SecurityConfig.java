@@ -59,6 +59,8 @@ public class SecurityConfig {
         http.headers(
                 hshcf -> hshcf.frameOptions(HeadersConfigurer .FrameOptionsConfig::disable));
 
+
+
         // 3. cors 재설정
         http.cors(hsccf -> hsccf.configurationSource(configurationSource()));
 //        http.cors().configurationSource(configurationSource());
@@ -121,10 +123,9 @@ public class SecurityConfig {
 
 //         11. 인증 권한 필터 설정
         http.authorizeHttpRequests((authorize) ->
-            authorize.requestMatchers("/user/login","/user/join").permitAll() // 필터를 거치지 않음
-                    .requestMatchers("/user/**").authenticated()
-                    .requestMatchers("/user/**","/users/detail").hasRole("ADMIN")
-//                    .anyRequest().authenticated()
+            authorize
+//                    .requestMatchers("/user/**").authenticated()
+                    .anyRequest().permitAll()
         );
         // users 로 가는 경우는 필터를 거쳐야 한다.
         return http.build();

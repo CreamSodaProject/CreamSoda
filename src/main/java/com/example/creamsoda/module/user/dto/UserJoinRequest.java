@@ -13,7 +13,7 @@ public record UserJoinRequest(
         @NotBlank(message = "이름 입력은 필수 입니다.")
         String name
 ) {
-    public User toEntity(String EncoderPassword) {
-        return new User(email, EncoderPassword, name);
+    public User toEntity() {
+        return new User(email, password, name);
     }
 }
