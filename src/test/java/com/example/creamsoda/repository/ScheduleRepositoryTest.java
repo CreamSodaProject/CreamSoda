@@ -1,10 +1,8 @@
 package com.example.creamsoda.repository;
 
-import com.example.creamsoda.module.schdule.ScheduleLabel;
+import com.example.creamsoda.module.schdule.common.ScheduleLabel;
 import com.example.creamsoda.module.schdule.model.Schedule;
 import com.example.creamsoda.module.schdule.model.ScheduleRepository;
-import com.example.creamsoda.module.user.model.User;
-import com.example.creamsoda.module.user.model.UserRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -46,8 +44,8 @@ public class ScheduleRepositoryTest {
         Assertions.assertEquals(schedule.getMemo(),"JPA 테스트는 다 마무리 해야함!");
         Assertions.assertEquals(schedule.getTodo(),"화이팅");
         Assertions.assertEquals(schedule.getLabel(), ScheduleLabel.RED);
-        Assertions.assertEquals(schedule.getStartTime(), LocalDateTime.of(2023, 9, 20, 9, 0));
-        Assertions.assertEquals(schedule.getEndTime(), LocalDateTime.of(2023, 9, 21, 18, 0));
+        Assertions.assertEquals(schedule.getStartTime(), LocalDateTime.of(2023, 9, 21, 20, 0));
+        Assertions.assertEquals(schedule.getEndTime(), LocalDateTime.of(2023, 9, 22, 20, 0));
     }
 
     @Test
@@ -71,7 +69,7 @@ public class ScheduleRepositoryTest {
     }
 
     @Test
-    @DisplayName("유저 save(Insert) And remove(Delete) 테스트")
+    @DisplayName("스케줄 save(Insert) And remove(Delete) 테스트")
     void ScheduleInsertAndDelete() {
 
         Schedule schedule = scheduleRepository.save(
@@ -80,7 +78,7 @@ public class ScheduleRepositoryTest {
                         , LocalDateTime.of(2023, 9, 21, 22, 0) )
         );
 
-        Assertions.assertEquals(schedule.getId(), 2);
+        Assertions.assertEquals(schedule.getId(), 3);
         Assertions.assertEquals(schedule.getTitle(), "풋살");
         Assertions.assertEquals(schedule.getMemo(),"진짜 박살내기 ^^");
         Assertions.assertEquals(schedule.getTodo(),"Todo~");

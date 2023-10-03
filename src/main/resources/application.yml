@@ -24,7 +24,7 @@ spring:
   sql:
     init:
       data-locations:
-        - classpath:static/db/data.sql
+        - classpath:static/data/data.sql
   h2:
     console:
       enabled: true

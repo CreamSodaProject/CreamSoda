@@ -104,24 +104,7 @@ public class SecurityConfig {
                 MyFilterResponseUtil.result(HttpStatus.FORBIDDEN, request, response, new Exception403("권한이 없습니다."));
             }));
 
-
-        // // Form 로그인 설정
-        // http.formLogin()
-        //         .loginPage("/loginForm")
-        //         .usernameParameter("username")
-        //         .passwordParameter("password")
-        //         .loginProcessingUrl("/login") // 로그인 양식 데이터를 제출해야 하는 URL - post
-        //         // .defaultSuccessUrl("/") // 인증 성공후 리다이렉션되는 주소
-        //         // .defaultSuccessUrl("/", true); // 상관없이 강제 리다이렉션
-        //         .successHandler((req, resp, authentication) -> {
-        //             System.out.println("디버그 : 로그인이 완료되었습니다.");
-        //             resp.sendRedirect("/");
-        //         }) // 로그 기록
-        //         .failureHandler((req, resp, exception) -> {
-        //             System.out.println("디버그 : 로그인 실패 -> " + exception.getMessage());
-        //         }); // 에러 로그
-
-//         11. 인증 권한 필터 설정
+//         11. 인증 권한 필터 설정 TODO : requestMatchers 넣으면 컴파일 오류
         http.authorizeHttpRequests((authorize) ->
             authorize
 //                    .requestMatchers("/user/**").authenticated()

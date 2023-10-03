@@ -1,6 +1,6 @@
 package com.example.creamsoda.module.schdule.model;
 
-import com.example.creamsoda.module.schdule.ScheduleLabel;
+import com.example.creamsoda.module.schdule.common.ScheduleLabel;
 import com.example.creamsoda.module.user.model.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -33,6 +33,7 @@ public class Schedule {
     private String todo;
 
     @Comment("라벨 색")
+    @Enumerated(EnumType.STRING)
     private ScheduleLabel label; // enum 으로 예정
 
     @Comment("스케줄 시작시간")
@@ -43,5 +44,8 @@ public class Schedule {
 
     @Comment("참가자 유저")
     @ManyToOne
+    @JoinColumn(name = "user_id")
     private User user;
+
+
 }

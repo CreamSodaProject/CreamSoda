@@ -1,8 +1,6 @@
 package com.example.creamsoda.module.user.model;
 
 import com.example.creamsoda.common.BaseTime;
-import com.example.creamsoda.common.RoleType;
-import com.example.creamsoda.module.user.status.UserStatus;
 import jakarta.persistence.*;
 import lombok.*;
 @Entity

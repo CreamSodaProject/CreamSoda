@@ -3,7 +3,6 @@ package com.example.creamsoda.auth;
 import com.auth0.jwt.exceptions.SignatureVerificationException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.example.creamsoda.common.RoleType;
 import com.example.creamsoda.module.user.model.User;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -41,7 +40,6 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
         try {
             DecodedJWT decodedJWT = JwtProvider.verify(jwt);
             Integer id = decodedJWT.getClaim("id").asInt();
-            RoleType role = decodedJWT.getClaim("role").as(RoleType.class);
 
             User user = User.builder().id(id).build();
             MyUserDetails myUserDetails = new MyUserDetails(user);

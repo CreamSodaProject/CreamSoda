@@ -36,7 +36,7 @@ public class UserRepositoryTest {
         List<User> userList = userRepository.findAll();
         Assertions.assertNotEquals(userList.size(), 0);
 
-        User user = userList.get(0);
+        User user = userList.get(3);
         Assertions.assertEquals(user.getEmail(), "David@gmail.com");
         Assertions.assertEquals(user.getPassword(), "1234");
         Assertions.assertEquals(user.getName(), "David");
@@ -50,7 +50,7 @@ public class UserRepositoryTest {
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
 
-            Assertions.assertEquals(user.getEmail(), "David@gmail.com");
+            Assertions.assertEquals(user.getEmail(), "David@naver.com");
             Assertions.assertEquals(user.getPassword(), "1234");
             Assertions.assertEquals(user.getName(), "David");
 
