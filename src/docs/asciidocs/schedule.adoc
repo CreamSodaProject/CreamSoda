@@ -1,0 +1,35 @@
+
+== 스케줄 목록 API
+
+=== 요청 정보 [HTTP]
+include::{snippets}/schedule-list/http-request.adoc[]
+
+=== 요청 정보 [Path Parameter]
+include::{snippets}/schedule-list/httpie-request.adoc[]
+
+=== 응답 정보 [성공]
+
+=== 응답 정보 [HTTP]
+include::{snippets}/schedule-list/http-response.adoc[]
+
+=== 응답 정보 [Field]
+include::{snippets}/schedule-list/response-fields.adoc[]
+
+== 스케줄 등록 API
+
+=== 요청 정보 [HTTP]
+include::{snippets}/schedule-save/http-request.adoc[]
+
+=== 요청 정보 [Path Parameter]
+include::{snippets}/schedule-save/httpie-request.adoc[]
+
+=== 요청 필드 [Fields]
+include::{snippets}/schedule-save/request-fields.adoc[]
+
+=== 응답 정보 [성공]
+
+=== 응답 정보 [HTTP]
+include::{snippets}/schedule-save/http-response.adoc[]
+
+=== 응답 정보 [Field]
+include::{snippets}/schedule-save/response-fields.adoc[]

@@ -1,32 +1,47 @@
 package com.example.creamsoda.module.schdule.service;
 
 import com.example.creamsoda.module.schdule.dto.ScheduleRequest;
+import com.example.creamsoda.module.schdule.dto.ScheduleUpdate;
 import com.example.creamsoda.module.schdule.model.Schedule;
 import com.example.creamsoda.module.schdule.model.ScheduleRepository;
 import com.example.creamsoda.module.user.model.User;
-import com.example.creamsoda.module.user.model.UserRepository;
-import com.example.creamsoda.module.user.service.UserService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional(readOnly = true)
 public class ScheduleService {
 
     private final ScheduleRepository scheduleRepository;
-    private final UserService userService;
 
-    public ScheduleService(ScheduleRepository scheduleRepository, UserService userService) {
+    public ScheduleService(ScheduleRepository scheduleRepository) {
         this.scheduleRepository = scheduleRepository;
-        this.userService = userService;
     }
 
     public List<Schedule> list() {
         return scheduleRepository.findAll();
     }
 
-    public Schedule save(ScheduleRequest request, User user) {
+    @Transactional
+    public Schedule saveSchedule(ScheduleRequest request, User user) {
+        System.out.println("테스트 : " + request);
+        System.out.println("테스트 : " + user);
+
         return scheduleRepository.save(request.toEntity(user));
+    }
+
+    public Schedule updateSchedule(ScheduleUpdate update, User user) {
+        return null;
+    }
+
+    public void deleteSchedule(Integer id) {
+
+    }
+
+    public Optional<Schedule> getSchedule(Integer id) {
+        return scheduleRepository.findById(id);
     }
 }

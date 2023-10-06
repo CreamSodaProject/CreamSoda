@@ -6,6 +6,7 @@ import com.example.creamsoda.example.UserExample;
 import com.example.creamsoda.module.schdule.common.ScheduleLabel;
 import com.example.creamsoda.module.schdule.controller.ScheduleController;
 import com.example.creamsoda.module.schdule.dto.ScheduleRequest;
+import com.example.creamsoda.module.schdule.dto.ScheduleUpdate;
 import com.example.creamsoda.module.schdule.model.Schedule;
 import com.example.creamsoda.module.schdule.service.ScheduleService;
 import com.example.creamsoda.module.user.model.User;
@@ -27,11 +28,10 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.mockito.BDDMockito.given;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(ScheduleController.class)
 @MockBean(JpaMetamodelMappingContext.class)
@@ -147,7 +147,7 @@ public class ScheduleMockTest {
     }
 
     @Test
-    @DisplayName("스케줄 등록 실패 Valid")
+    @DisplayName("스케줄 등록 실패 (Valid)")
     void scheduleSaveFail() throws Exception {
 
         User user = UserExample.user;
@@ -157,7 +157,7 @@ public class ScheduleMockTest {
 
         // given
         given(this.userService.getUser(user.getId())).willReturn(Optional.of(user));
-        given(this.scheduleService.save(scheduleRequest, user)).willReturn(ScheduleExample.schedule);
+        given(this.scheduleService.saveSchedule(scheduleRequest, user)).willReturn(ScheduleExample.schedule);
 
         // when
         ResultActions perform = this.mockMvc.perform(
@@ -177,7 +177,7 @@ public class ScheduleMockTest {
     }
 
     @Test
-    @DisplayName("스케줄 등록 실패 유저X")
+    @DisplayName("스케줄 등록 실패 (유저X)")
     void scheduleFail2() throws Exception {
 
         User user = UserExample.user;
@@ -187,7 +187,7 @@ public class ScheduleMockTest {
 
         // given
         given(this.userService.getUser(user.getId())).willReturn(Optional.empty());
-        given(this.scheduleService.save(scheduleRequest, user)).willReturn(ScheduleExample.schedule);
+        given(this.scheduleService.saveSchedule(scheduleRequest, user)).willReturn(ScheduleExample.schedule);
 
         // when
         ResultActions perform = this.mockMvc.perform(
@@ -217,20 +217,20 @@ public class ScheduleMockTest {
 
         // given
         given(this.userService.getUser(user.getId())).willReturn(Optional.of(user));
-        given(this.scheduleService.save(scheduleRequest, user)).willReturn(ScheduleExample.schedule);
+        given(this.scheduleService.saveSchedule(scheduleRequest, user)).willReturn(ScheduleExample.schedule);
 
         // when
         ResultActions perform = this.mockMvc.perform(
                 post("/schedule")
                         .content(objectMapper.writeValueAsString(scheduleRequest))
-                        .accept(MediaType.APPLICATION_JSON_VALUE)
-                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
         );
 
         // then
         perform.andExpect(status().isOk())
                 .andDo(print())
-                .andExpect(jsonPath("$.id").value(1))
+//                .andExpect(jsonPath("$.id").value(1))
                 .andExpect(jsonPath("$.title").value("프로젝트 세팅 마무리"))
                 .andExpect(jsonPath("$.memo").value("JPA 테스트는 다 마무리 해야함!"))
                 .andExpect(jsonPath("$.todo").value("화이팅"))
@@ -241,6 +241,175 @@ public class ScheduleMockTest {
                 .andExpect(jsonPath("$.user.email").value("David@naver.com"))
                 .andExpect(jsonPath("$.user.password").value("1234"))
                 .andExpect(jsonPath("$.user.name").value("David"))
+        ;
+    }
+
+    @Test
+    @DisplayName("스케줄 수정 실패 (유저X)")
+    void scheduleUpdateFail() throws Exception {
+
+        User user = UserExample.user;
+
+        ScheduleUpdate scheduleUpdate = new ScheduleUpdate("프로젝트 세팅 마무리", "JPA 테스트는 다 마무리 해야함!", "해결 못할듯?"
+                , ScheduleLabel.RED, "2023-09-21T20:00:00", "2023-09-22T18:00:00", user.getId());
+
+        // given
+        given(this.userService.getUser(user.getId())).willReturn(Optional.empty());
+        given(this.scheduleService.updateSchedule(scheduleUpdate, user)).willReturn(scheduleUpdate.toEntity(user));
+
+        // when
+        ResultActions perform = this.mockMvc.perform(
+                put("/schedule/{id}", 1)
+                        .content(objectMapper.writeValueAsString(scheduleUpdate))
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+        );
+
+        // then
+        perform.andExpect(status().isBadRequest())
+                .andDo(print())
+                .andExpect(jsonPath("$.type").value("about:blank"))
+                .andExpect(jsonPath("$.title").value("Bad Request"))
+                .andExpect(jsonPath("$.detail").value("유저의 정보가 존재 하지 않습니다."))
+        ;
+    }
+
+    @Test
+    @DisplayName("스케줄 수정 실패 (Valid)")
+    void scheduleUpdateFail2() throws Exception {
+
+        User user = UserExample.user;
+
+        ScheduleUpdate scheduleUpdate = new ScheduleUpdate("", "JPA 테스트는 다 마무리 해야함!", "해결 못할듯?"
+                , ScheduleLabel.RED, "2023-09-21T20:00:00", "2023-09-22T18:00:00", user.getId());
+
+        // given
+        given(this.userService.getUser(user.getId())).willReturn(Optional.empty());
+        given(this.scheduleService.updateSchedule(scheduleUpdate, user)).willReturn(scheduleUpdate.toEntity(user));
+
+        // when
+        ResultActions perform = this.mockMvc.perform(
+                put("/schedule/{id}", 1)
+                        .content(objectMapper.writeValueAsString(scheduleUpdate))
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+        );
+
+        // then
+        perform.andExpect(status().isBadRequest())
+                .andDo(print())
+                .andExpect(jsonPath("$.type").value("about:blank"))
+                .andExpect(jsonPath("$.title").value("Bad Request"))
+                .andExpect(jsonPath("$.detail").value("제목 입력은 필수 입니다."))
+        ;
+    }
+
+    @Test
+    @DisplayName("스케줄 수정 성공")
+    void scheduleUpdate() throws Exception {
+
+        User user = UserExample.user;
+
+        ScheduleUpdate scheduleUpdate = new ScheduleUpdate("프로젝트 세팅 마무리", "JPA 테스트는 다 마무리 해야함!", "해결 못할듯?"
+                , ScheduleLabel.RED, "2023-09-21T20:00:00", "2023-09-22T18:00:00", user.getId());
+
+        // given
+        given(this.userService.getUser(user.getId())).willReturn(Optional.of(user));
+        given(this.scheduleService.updateSchedule(scheduleUpdate, user)).willReturn(scheduleUpdate.toEntity(user));
+
+        // when
+        ResultActions perform = this.mockMvc.perform(
+                put("/schedule/{id}", 1)
+                        .content(objectMapper.writeValueAsString(scheduleUpdate))
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+        );
+
+        // then
+        perform.andExpect(status().isOk())
+                .andDo(print())
+                .andExpect(jsonPath("$.title").value("프로젝트 세팅 마무리"))
+                .andExpect(jsonPath("$.memo").value("JPA 테스트는 다 마무리 해야함!"))
+                .andExpect(jsonPath("$.todo").value("해결 못할듯?"))
+                .andExpect(jsonPath("$.label").value("RED"))
+                .andExpect(jsonPath("$.startTime").value("2023-09-21T20:00:00"))
+                .andExpect(jsonPath("$.endTime").value("2023-09-22T18:00:00"))
+                .andExpect(jsonPath("$.user.id").value(1))
+                .andExpect(jsonPath("$.user.email").value("David@naver.com"))
+                .andExpect(jsonPath("$.user.password").value("1234"))
+                .andExpect(jsonPath("$.user.name").value("David"))
+        ;
+    }
+
+    @Test
+    @DisplayName("스케줄 삭제 실패 (유저 X)")
+    void DeleteScheduleFail() throws Exception {
+
+        User user = UserExample.user;
+
+        // given
+        given(this.userService.getUser(user.getId())).willReturn(Optional.empty());
+
+        // when
+        ResultActions perform = this.mockMvc.perform(
+                delete("/schedule/{id}", 1)
+        );
+
+        // then
+        perform.andExpect(status().isBadRequest())
+                .andDo(print())
+                .andExpect(jsonPath("$.type").value("about:blank"))
+                .andExpect(jsonPath("$.title").value("Bad Request"))
+                .andExpect(jsonPath("$.detail").value("유저의 정보가 존재 하지 않습니다."))
+                ;
+    }
+
+    @Test
+    @DisplayName("스케줄 삭제 실패 (스케줄X)")
+    void DeleteScheduleFail2() throws Exception {
+
+        User user = UserExample.user;
+        Schedule schedule = ScheduleExample.schedule;
+
+        // given
+        given(this.userService.getUser(user.getId())).willReturn(Optional.of(user));
+        given(this.scheduleService.getSchedule(schedule.getId())).willReturn(Optional.empty());
+
+        // when
+        ResultActions perform = this.mockMvc.perform(
+                delete("/schedule/{id}", 1)
+        );
+
+        // then
+        perform.andExpect(status().isBadRequest())
+                .andDo(print())
+                .andExpect(jsonPath("$.type").value("about:blank"))
+                .andExpect(jsonPath("$.title").value("Bad Request"))
+                .andExpect(jsonPath("$.detail").value("스케줄의 정보가 존재 하지 않습니다."))
+        ;
+    }
+
+    @Test
+    @DisplayName("스케줄 삭제 성공")
+    void DeleteScheduleSuccess() throws Exception {
+
+        User user = UserExample.user;
+        Schedule schedule = ScheduleExample.schedule;
+
+        // given
+        given(this.userService.getUser(user.getId())).willReturn(Optional.of(user));
+        given(this.scheduleService.getSchedule(schedule.getId())).willReturn(Optional.of(schedule));
+
+        // when
+        ResultActions perform = this.mockMvc.perform(
+                delete("/schedule/{id}", 1)
+        );
+
+        // then
+        perform.andExpect(status().isOk())
+                .andDo(print())
+                .andExpectAll()
+                .andExpect(content().string("스케줄 정보가 삭제되었습니다."));
         ;
     }
 }

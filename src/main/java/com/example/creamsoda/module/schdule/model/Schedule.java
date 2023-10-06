@@ -47,5 +47,13 @@ public class Schedule {
     @JoinColumn(name = "user_id")
     private User user;
 
-
+    public Schedule(String title, String memo, String todo, ScheduleLabel label, LocalDateTime startTime, LocalDateTime endTime, User user) {
+        this.title = title;
+        this.memo = memo;
+        this.todo = todo;
+        this.label = label;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.user = user;
+    }
 }

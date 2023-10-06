@@ -9,7 +9,6 @@ import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.time.LocalDateTime;
-import java.util.Objects;
 
 @Setter
 @Getter
@@ -17,7 +16,7 @@ import java.util.Objects;
 @AllArgsConstructor
 @ToString
 @EqualsAndHashCode
-public class ScheduleRequest {
+public class ScheduleUpdate {
 
     @NotBlank(message = "제목 입력은 필수 입니다.")
     private String title;

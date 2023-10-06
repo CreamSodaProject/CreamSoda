@@ -1,3 +1,4 @@
+
 == 유저 회원가입 API
 
 === 요청 정보 [HTTP]
@@ -5,7 +6,7 @@ include::{snippets}/user-join/http-request.adoc[]
 
 === 요청 정보 [Path Parameter]
 include::{snippets}/user-join/httpie-request.adoc[]
-https://xxx[]
+
 === 요청 필드 [Fields]
 include::{snippets}/user-join/request-fields.adoc[]
 
