@@ -1,6 +1,6 @@
-insert into USERS(email, password, name, created_date) values ('David@naver.com', '1234', 'David', now());
-insert into USERS(email, password, name, created_date) values ('Ho@naver.com', '1234', 'Ho', now());
-insert into USERS(email, password, name, created_date) values ('Hee@naver.com', '1234', 'Hee', now());
+insert into USERS(email, password, name, birth_date, created_date) values ('David@naver.com', '1234', 'David', '19960807', now());
+insert into USERS(email, password, name, birth_date, created_date) values ('Ho@naver.com', '1234', 'Ho', '19960807', now());
+insert into USERS(email, password, name, birth_date, created_date) values ('Hee@naver.com', '1234', 'Hee', '19960807', now());
 
 insert into SCHEDULE(title, memo, todo, label, user_id, start_time, end_time)
 values ('프로젝트 세팅 마무리', 'JPA 테스트는 다 마무리 해야함!', '화이팅', 'RED', 1, '2023-09-21T20:00:00', '2023-09-22T20:00:00');

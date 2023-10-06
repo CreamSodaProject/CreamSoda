@@ -98,15 +98,17 @@ public class SecurityConfig {
                 MyFilterResponseUtil.result(HttpStatus.UNAUTHORIZED, request, response, new Exception401("인증되지 않았습니다"));
             })
         // 10. 권한 실패 처리
-            .accessDeniedHandler((request, response, accessDeniedException) -> {
-                log.warn("권한이 없는 사용자가 자원에 접근하려 합니다 : "+accessDeniedException.getMessage());
-                MyFilterResponseUtil.result(HttpStatus.FORBIDDEN, request, response, new Exception403("권한이 없습니다."));
-            }));
+//            .accessDeniedHandler((request, response, accessDeniedException) -> {
+//                log.warn("권한이 없는 사용자가 자원에 접근하려 합니다 : "+accessDeniedException.getMessage());
+//                MyFilterResponseUtil.result(HttpStatus.FORBIDDEN, request, response, new Exception403("권한이 없습니다."));
+//            })
+            );
 
-//         11. 인증 권한 필터 설정 TODO : requestMatchers 넣으면 컴파일 오류
+//         11. 인증 권한 필터 설정 TODO : H2 서블릿 컨텍스트와 dispatcher 서블릿이 매핑되어 뭘사용해야 할지 몰라 enable false 로 해놈
         http.authorizeHttpRequests((authorize) ->
             authorize
-//                    .requestMatchers("/user/**").authenticated()
+                    .requestMatchers("/user/**").permitAll()
+                    .requestMatchers("/schedule/**").authenticated()
                     .anyRequest().permitAll()
         );
         // users 로 가는 경우는 필터를 거쳐야 한다.

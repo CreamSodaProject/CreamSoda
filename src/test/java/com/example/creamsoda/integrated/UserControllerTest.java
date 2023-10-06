@@ -18,10 +18,36 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class UserControllerTest extends AbstractIntegrated{
 
     @Test
-    @DisplayName("유저 회원가입 테스트")
+    @DisplayName("[실패] 유저 회원가입 테스트 (Valid 오류)")
+    void userJoinFail() throws Exception {
+
+        UserJoinRequest joinDTO = new UserJoinRequest("", "1234", "ho", "19960807");
+
+
+        ResultActions perform = this.mockMvc.perform(
+                post("/user/join")
+                        .content(objectMapper.writeValueAsString(joinDTO))
+                        .accept(MediaType.APPLICATION_JSON_VALUE)
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+        );
+
+        perform
+                .andExpect(status().isBadRequest())
+                .andDo(print())
+                .andDo(
+                        document("user-join-valid",
+                                requestFields(getUserJoinRequestField()),
+                                responseFields(getFailResponseField())
+                        )
+
+                );
+    }
+
+    @Test
+    @DisplayName("[성공] 유저 회원가입 테스트")
     void userJoin() throws Exception {
 
-        UserJoinRequest joinDTO = new UserJoinRequest("ho@naver.com", "1234", "ho");
+        UserJoinRequest joinDTO = new UserJoinRequest("ho@naver.com", "1234", "ho", "19960807");
 
 
         ResultActions perform = this.mockMvc.perform(
@@ -37,15 +63,40 @@ public class UserControllerTest extends AbstractIntegrated{
                 .andDo(
                         document("user-join",
                                 requestFields(getUserJoinRequestField()),
-                                responseFields().and(getUserJoinField()
-                                )
+                                responseFields(getUserJoinField())
                         )
 
                 );
     }
 
     @Test
-    @DisplayName("유저 로그인 테스트")
+    @DisplayName("[실패] 유저 로그인 테스트 (로그인 정보 오류)")
+    void userLoginFail() throws Exception {
+
+        UserLoginRequest loginDTO = new UserLoginRequest("", "1234");
+
+
+        ResultActions perform = this.mockMvc.perform(
+                post("/user/login")
+                        .content(objectMapper.writeValueAsString(loginDTO))
+                        .accept(MediaType.APPLICATION_JSON_VALUE)
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+        );
+
+        perform
+                .andExpect(status().isBadRequest())
+                .andDo(print())
+                .andDo(
+                        document("user-login",
+                                requestFields(getUserLoginRequestField()),
+                                responseFields(getFailResponseField())
+                        )
+
+                );
+    }
+
+    @Test
+    @DisplayName("[성공] 유저 로그인 테스트")
     void userLogin() throws Exception {
 
         UserLoginRequest loginDTO = new UserLoginRequest("David@naver.com", "1234");
@@ -64,8 +115,7 @@ public class UserControllerTest extends AbstractIntegrated{
                 .andDo(
                         document("user-login",
                                 requestFields(getUserLoginRequestField()),
-                                responseFields().and(getUserLoginField()
-                                )
+                                responseFields(getUserLoginField())
                         )
 
                 );
@@ -76,6 +126,7 @@ public class UserControllerTest extends AbstractIntegrated{
                 fieldWithPath("email").description("이메일"),
                 fieldWithPath("password").description("비밀번호"),
                 fieldWithPath("name").description("사용자이름"),
+                fieldWithPath("birthDate").description("유저 생년월일"),
         };
     }
     private FieldDescriptor[] getUserJoinField() {
@@ -84,6 +135,7 @@ public class UserControllerTest extends AbstractIntegrated{
                 fieldWithPath("email").description("유저 이메일"),
                 fieldWithPath("password").description("유저 비밀번호"),
                 fieldWithPath("name").description("유저 이름"),
+                fieldWithPath("birthDate").description("유저 생년월일"),
                 fieldWithPath("createdDate").description("가입 시간"),
                 fieldWithPath("modifiedDate").description("수정 시간"),
         };
@@ -102,6 +154,7 @@ public class UserControllerTest extends AbstractIntegrated{
                 fieldWithPath("email").description("유저 이메일"),
                 fieldWithPath("password").description("유저 비밀번호"),
                 fieldWithPath("name").description("유저 이름"),
+                fieldWithPath("birthDate").description("유저 생년월일"),
                 fieldWithPath("createdDate").description("가입 시간"),
                 fieldWithPath("modifiedDate").description("수정 시간"),
         };

@@ -93,7 +93,7 @@ public class ScheduleController {
             throw new Exception400("스케줄의 정보가 존재 하지 않습니다.");
         }
 
-        scheduleService.deleteSchedule(id);
+        scheduleService.deleteSchedule(optionalSchedule.get());
 
         return ResponseEntity.ok().body("스케줄 정보가 삭제되었습니다.");
     }

@@ -18,10 +18,12 @@ public class User extends BaseTime {
     private String email;
     private String password;
     private String name;
+    private String birthDate;
 
-    public User(String email, String password, String name) {
+    public User(String email, String password, String name, String birthDate) {
         this.email = email;
         this.password = password;
         this.name = name;
+        this.birthDate = birthDate;
     }
 }

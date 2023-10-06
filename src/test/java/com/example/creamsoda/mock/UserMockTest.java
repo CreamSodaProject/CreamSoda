@@ -41,10 +41,10 @@ public class UserMockTest {
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Test
-    @DisplayName("회원가입 실패 Valid 오류")
+    @DisplayName("[실패] 회원가입 (Valid 오류)")
     void userJoinFail() throws Exception {
 
-        UserJoinRequest request = new UserJoinRequest("hohyeon", "1234", "hohyeon");
+        UserJoinRequest request = new UserJoinRequest("hohyeon", "1234", "hohyeon","19960807");
 
         // given
         given(this.userService.userJoin(request)).willReturn(request.toEntity());
@@ -69,10 +69,10 @@ public class UserMockTest {
     }
 
     @Test
-    @DisplayName("회원가입 성공")
+    @DisplayName("[성공] 회원가입")
     void userJoinSuccess() throws Exception {
 
-        UserJoinRequest request = new UserJoinRequest("hohyeon@naver.com", "1234", "hohyeon");
+        UserJoinRequest request = new UserJoinRequest("hohyeon@naver.com", "1234", "hohyeon","19960807");
 
         // given
         given(this.userService.userJoin(request)).willReturn(request.toEntity());
@@ -97,7 +97,7 @@ public class UserMockTest {
     }
 
     @Test
-    @DisplayName("로그인 실패 Valid 오류")
+    @DisplayName("[실패] 로그인 (Valid 오류)")
     void userLoginFail() throws Exception {
 
         UserLoginRequest userLoginRequest = new UserLoginRequest("David@naver.com", "");
@@ -123,7 +123,7 @@ public class UserMockTest {
     }
 
     @Test
-    @DisplayName("로그인 실패 Service Empty")
+    @DisplayName("[실패] 로그인 (로그인 정보 오류)")
     void userLoginFail2() throws Exception {
 
         UserLoginRequest userLoginRequest = new UserLoginRequest("David@naver.com", "1234");
@@ -149,7 +149,7 @@ public class UserMockTest {
     }
 
     @Test
-    @DisplayName("로그인 성공")
+    @DisplayName("[성공] 로그인")
     void userLoginSuccess() throws Exception {
 
         UserLoginRequest userLoginRequest = new UserLoginRequest("David@naver.com", "1234");

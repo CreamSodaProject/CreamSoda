@@ -34,10 +34,11 @@ public class ScheduleService {
     }
 
     public Schedule updateSchedule(ScheduleUpdate update, User user) {
-        return null;
+        return scheduleRepository.save(update.toEntity(user));
     }
 
-    public void deleteSchedule(Integer id) {
+    public void deleteSchedule(Schedule schedule) {
+        scheduleRepository.delete(schedule);
 
     }
 

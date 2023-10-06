@@ -45,7 +45,7 @@ public class AbstractIntegrated {
 
     protected String getUser() {
         try {
-            UserLoginRequest loginDTO = new UserLoginRequest("david@naver.com", "1234");
+            UserLoginRequest loginDTO = new UserLoginRequest("David@naver.com", "1234");
 
             ResultActions perform = this.mockMvc.perform(
                     post("/user/login")
@@ -62,15 +62,6 @@ public class AbstractIntegrated {
         }
     }
 
-    protected FieldDescriptor[] getSuccessResponseField() {
-        return new FieldDescriptor[] {
-                fieldWithPath("type").description("type"),
-                fieldWithPath("title").description("에러 코드 (이름)"),
-                fieldWithPath("status").description("에러 코드"),
-                fieldWithPath("detail").description("에러 메세지 (중요)"),
-                fieldWithPath("instance").description("요청 경로")
-        };
-    }
 
     protected FieldDescriptor[] getFailResponseField() {
         return new FieldDescriptor[] {
