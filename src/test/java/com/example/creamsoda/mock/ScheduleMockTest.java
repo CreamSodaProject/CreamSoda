@@ -10,7 +10,6 @@ import com.example.creamsoda.module.schdule.model.Schedule;
 import com.example.creamsoda.module.schdule.service.ScheduleService;
 import com.example.creamsoda.module.user.model.User;
 import com.example.creamsoda.module.user.service.UserService;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
