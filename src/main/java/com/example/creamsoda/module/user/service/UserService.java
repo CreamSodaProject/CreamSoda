@@ -24,13 +24,23 @@ public class UserService {
 
     @Transactional
     public User userJoin(UserJoinRequest request) {
-//        String encodePassword = passwordEncoder.encode(request.password());
-        return userRepository.save(request.toEntity());
+        String encodePassword = passwordEncoder.encode(request.password());
+        User entity = request.toEntity();
+        entity.setPassword(encodePassword);
+        return userRepository.save(entity);
 
     }
 
     public Optional<User> userLogin(UserLoginRequest request) {
-        return userRepository.findByEmailAndPassword(request.email(), request.password());
+        Optional<User> optional = userRepository.findByEmail(request.email());
+        if (optional.isPresent()) {
+            User user = optional.get();
+            if (!passwordEncoder.matches(request.password(), user.getPassword())) {
+                return Optional.empty();
+            }
+        }
+        return optional;
+
     }
 
     public Optional<User> getUser(Integer id) {

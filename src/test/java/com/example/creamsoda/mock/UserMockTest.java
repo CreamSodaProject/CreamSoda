@@ -44,7 +44,7 @@ public class UserMockTest {
     @DisplayName("[실패] 회원가입 (Valid 오류)")
     void userJoinFail() throws Exception {
 
-        UserJoinRequest request = new UserJoinRequest("hohyeon", "1234", "hohyeon","19960807");
+        UserJoinRequest request = new UserJoinRequest("hohyeon", "1234", "hohyeon");
 
         // given
         given(this.userService.userJoin(request)).willReturn(request.toEntity());
@@ -72,7 +72,7 @@ public class UserMockTest {
     @DisplayName("[성공] 회원가입")
     void userJoinSuccess() throws Exception {
 
-        UserJoinRequest request = new UserJoinRequest("hohyeon@naver.com", "1234", "hohyeon","19960807");
+        UserJoinRequest request = new UserJoinRequest("hohyeon@naver.com", "1234", "hohyeon");
 
         // given
         given(this.userService.userJoin(request)).willReturn(request.toEntity());

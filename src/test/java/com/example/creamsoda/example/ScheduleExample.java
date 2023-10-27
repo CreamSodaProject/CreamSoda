@@ -8,5 +8,5 @@ import java.time.LocalDateTime;
 public interface ScheduleExample {
     Schedule schedule = new Schedule(1, "프로젝트 세팅 마무리", "JPA 테스트는 다 마무리 해야함!", "화이팅"
             , ScheduleLabel.RED, LocalDateTime.of(2023, 9, 21, 20, 0)
-            , LocalDateTime.of(2023, 9, 22, 18, 0), UserExample.user);
+            , LocalDateTime.of(2023, 9, 22, 18, 0));
 }

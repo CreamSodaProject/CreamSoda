@@ -21,7 +21,7 @@ public class UserControllerTest extends AbstractIntegrated{
     @DisplayName("[실패] 유저 회원가입 테스트 (Valid 오류)")
     void userJoinFail() throws Exception {
 
-        UserJoinRequest joinDTO = new UserJoinRequest("", "1234", "ho", "19960807");
+        UserJoinRequest joinDTO = new UserJoinRequest("", "1234", "ho");
 
 
         ResultActions perform = this.mockMvc.perform(
@@ -47,7 +47,7 @@ public class UserControllerTest extends AbstractIntegrated{
     @DisplayName("[성공] 유저 회원가입 테스트")
     void userJoin() throws Exception {
 
-        UserJoinRequest joinDTO = new UserJoinRequest("ho@naver.com", "1234", "ho", "19960807");
+        UserJoinRequest joinDTO = new UserJoinRequest("ho@naver.com", "1234", "ho");
 
 
         ResultActions perform = this.mockMvc.perform(
@@ -126,7 +126,6 @@ public class UserControllerTest extends AbstractIntegrated{
                 fieldWithPath("email").description("이메일"),
                 fieldWithPath("password").description("비밀번호"),
                 fieldWithPath("name").description("사용자이름"),
-                fieldWithPath("birthDate").description("유저 생년월일"),
         };
     }
     private FieldDescriptor[] getUserJoinField() {
@@ -135,7 +134,6 @@ public class UserControllerTest extends AbstractIntegrated{
                 fieldWithPath("email").description("유저 이메일"),
                 fieldWithPath("password").description("유저 비밀번호"),
                 fieldWithPath("name").description("유저 이름"),
-                fieldWithPath("birthDate").description("유저 생년월일"),
                 fieldWithPath("createdDate").description("가입 시간"),
                 fieldWithPath("modifiedDate").description("수정 시간"),
         };
@@ -154,7 +152,6 @@ public class UserControllerTest extends AbstractIntegrated{
                 fieldWithPath("email").description("유저 이메일"),
                 fieldWithPath("password").description("유저 비밀번호"),
                 fieldWithPath("name").description("유저 이름"),
-                fieldWithPath("birthDate").description("유저 생년월일"),
                 fieldWithPath("createdDate").description("가입 시간"),
                 fieldWithPath("modifiedDate").description("수정 시간"),
         };

@@ -15,19 +15,36 @@ server:
 #      secret-key: VMyLSxAit6h1rbGgeWhmN2gLvBiED9cY6WdiVRke
 #    stack:
 #      auto: false
+#spring:
+#  datasource:
+#    url: jdbc:h2:mem:test;MODE=MySQL
+#    driver-class-name: org.h2.Driver
+#    username: sa
+#    password:
 spring:
+  mail:
+    host: smtp.naver.com #smtp 서버 주소
+    port: 465 # 메일 인증서버 포트
+    username: khh4569 #네이버 아이디
+    password: ghgus5762 #네이버 비밀번호
+    properties:
+      mail:
+        smtp:
+          starttls:
+            enable: true
+          #            required: true
+          auth: true
+          #          connectiontimeout: 5000
+          #          timeout: 5000
+          #          writetimeout: 5000
+          ssl:
+            #trust: smtp.naver.com
+            enable: true #반드시 필요 -> SSL 필요로 되어있으면
   datasource:
-    url: jdbc:h2:mem:test;MODE=MySQL
-    driver-class-name: org.h2.Driver
-    username: sa
-    password:
-  sql:
-    init:
-      data-locations:
-        - classpath:static/data/data.sql
-  h2:
-    console:
-      enabled: false
+    url: jdbc:mysql://ls-1692012060d918e6f1e798358c98026076d919c1.c9w0jf95oc7r.ap-northeast-2.rds.amazonaws.com:3306/cream-soda-dev?serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: dbmasteruser
+    password: ghgus531
   output:
     ansi:
       enabled: always
@@ -37,7 +54,7 @@ spring:
 #        max-request-size: 10MB
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     show-sql: true
     properties:
       hibernate:

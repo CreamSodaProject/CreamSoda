@@ -36,7 +36,7 @@ public class UserRepositoryTest {
         List<User> userList = userRepository.findAll();
         Assertions.assertNotEquals(userList.size(), 0);
 
-        User user = userList.get(3);
+        User user = userList.get(0);
         Assertions.assertEquals(user.getEmail(), "David@gmail.com");
         Assertions.assertEquals(user.getPassword(), "1234");
         Assertions.assertEquals(user.getName(), "David");
@@ -45,12 +45,12 @@ public class UserRepositoryTest {
     @Test
     @DisplayName("유저 findById And merge(Update) 테스트")
     void selectOne() {
-        Optional<User> optionalUser = userRepository.findById(1);
+        Optional<User> optionalUser = userRepository.findById(2);
 
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
 
-            Assertions.assertEquals(user.getEmail(), "David@naver.com");
+            Assertions.assertEquals(user.getEmail(), "David@gmail.com");
             Assertions.assertEquals(user.getPassword(), "1234");
             Assertions.assertEquals(user.getName(), "David");
 

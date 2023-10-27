@@ -1,5 +1,6 @@
 package com.example.creamsoda.module.file.model;
 
+import com.example.creamsoda.module.file.type.FileType;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.Comment;
@@ -8,10 +9,9 @@ import org.hibernate.annotations.Comment;
 @Getter
 @Setter
 @NoArgsConstructor
-@Builder
 @AllArgsConstructor
-@Table(name = "FILE")
-public class File {
+@Table(name = "FILEINFO")
+public class FileInfo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,18 +19,6 @@ public class File {
     private Integer id;
 
     @Comment("파일 출처")
-    @ManyToOne
-    private FileInfo fileInfo;
-
-    @Comment("파일 이름")
-    private String fileName;
-
-    @Comment("파일 경로")
-    private String fileUrl;
-
-    @Comment("파일 사이즈")
-    private Long fileSize;
-
-    @Comment("파일 확장자")
-    private String extension;
+    @Enumerated(EnumType.STRING)
+    private FileType type;
 }

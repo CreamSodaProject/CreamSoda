@@ -39,19 +39,19 @@ public class ScheduleRepositoryTest {
         Assertions.assertNotEquals(scheduleList.size(), 0);
 
         Schedule schedule = scheduleList.get(0);
-        Assertions.assertEquals(schedule.getId(), 1);
+        Assertions.assertEquals(schedule.getId(), 4);
         Assertions.assertEquals(schedule.getTitle(), "프로젝트 세팅 마무리");
         Assertions.assertEquals(schedule.getMemo(),"JPA 테스트는 다 마무리 해야함!");
         Assertions.assertEquals(schedule.getTodo(),"화이팅");
         Assertions.assertEquals(schedule.getLabel(), ScheduleLabel.RED);
-        Assertions.assertEquals(schedule.getStartTime(), LocalDateTime.of(2023, 9, 21, 20, 0));
-        Assertions.assertEquals(schedule.getEndTime(), LocalDateTime.of(2023, 9, 22, 20, 0));
+        Assertions.assertEquals(schedule.getStartTime(), LocalDateTime.of(2023, 9, 20, 9, 0));
+        Assertions.assertEquals(schedule.getEndTime(), LocalDateTime.of(2023, 9, 21, 18, 0));
     }
 
     @Test
     @DisplayName("스케줄 findById And merge(Update) 테스트")
     void selectScheduleAndUpdate() {
-        Optional<Schedule> optionalSchedule = scheduleRepository.findById(1);
+        Optional<Schedule> optionalSchedule = scheduleRepository.findById(3);
 
         if (optionalSchedule.isPresent()) {
             Schedule schedule = optionalSchedule.get();
@@ -78,7 +78,7 @@ public class ScheduleRepositoryTest {
                         , LocalDateTime.of(2023, 9, 21, 22, 0) )
         );
 
-        Assertions.assertEquals(schedule.getId(), 3);
+        Assertions.assertEquals(schedule.getId(), 2);
         Assertions.assertEquals(schedule.getTitle(), "풋살");
         Assertions.assertEquals(schedule.getMemo(),"진짜 박살내기 ^^");
         Assertions.assertEquals(schedule.getTodo(),"Todo~");

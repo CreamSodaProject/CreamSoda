@@ -1,5 +1,6 @@
 package com.example.creamsoda.module.schdule.service;
 
+import com.example.creamsoda.module.participant.model.Participant;
 import com.example.creamsoda.module.schdule.dto.ScheduleRequest;
 import com.example.creamsoda.module.schdule.dto.ScheduleUpdate;
 import com.example.creamsoda.module.schdule.model.Schedule;
@@ -26,17 +27,14 @@ public class ScheduleService {
     }
 
     @Transactional
-    public Schedule saveSchedule(ScheduleRequest request, User user) {
-        System.out.println("테스트 : " + request);
-        System.out.println("테스트 : " + user);
-
-        return scheduleRepository.save(request.toEntity(user));
+    public Schedule saveSchedule(ScheduleRequest request, Participant participant) {
+        return scheduleRepository.save(request.toEntity(participant));
     }
-
-    public Schedule updateSchedule(ScheduleUpdate update, User user) {
-        return scheduleRepository.save(update.toEntity(user));
+    @Transactional
+    public Schedule updateSchedule(ScheduleUpdate update, Participant participant) {
+        return scheduleRepository.save(update.toEntity(participant));
     }
-
+    @Transactional
     public void deleteSchedule(Schedule schedule) {
         scheduleRepository.delete(schedule);
 
