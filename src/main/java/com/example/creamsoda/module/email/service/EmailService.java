@@ -1,21 +1,25 @@
-package com.example.creamsoda.module.user.service;
+package com.example.creamsoda.module.email.service;
 
+import com.example.creamsoda.module.email.dto.EmailAuthRequestDto;
+import com.example.creamsoda.module.email.dto.PasswordFindRequestDto;
+import com.example.creamsoda.module.email.model.Email;
+import com.example.creamsoda.module.email.model.EmailRepository;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.UnsupportedEncodingException;
 import java.security.SecureRandom;
 import java.util.Random;
 
-import static org.springframework.security.core.context.SecurityContextHolder.setContext;
-
 @Service
 @RequiredArgsConstructor
 public class EmailService {
 
+    private final EmailRepository emailRepository;
 	//의존성 주입을 통해서 필요한 객체를 가져온다.
     private final JavaMailSender emailSender;
     private String authNum; //랜덤 인증 코드
@@ -62,10 +66,8 @@ public class EmailService {
                     break;
             }
         }
-
         authNum = key.toString();
     }
-
 
 
     //메일 양식 작성 (이메일 확인)
@@ -109,28 +111,30 @@ public class EmailService {
         return message;
     }
 
+    @Transactional
     //실제 메일 전송
-    public String sendEmail(String toEmail) throws MessagingException, UnsupportedEncodingException {
+    public Email sendEmail(EmailAuthRequestDto requestDto) throws MessagingException, UnsupportedEncodingException {
     
         //메일전송에 필요한 정보 설정
-        MimeMessage emailForm = createEmailForm(toEmail);
+        MimeMessage emailForm = createEmailForm(requestDto.email());
         //실제 메일 전송
         emailSender.send(emailForm);
 
-        return authNum; //인증 코드 반환
+        return emailRepository.save(requestDto.toEntity(authNum)); //인증 코드 db 저장
     }
 
     //실제 메일 전송
-    public String sendPassword(String toEmail) throws MessagingException, UnsupportedEncodingException {
+    public Email sendPassword(PasswordFindRequestDto requestDto) throws MessagingException, UnsupportedEncodingException {
 
         //메일전송에 필요한 정보 설정
-        MimeMessage emailForm = createEmailFormPassword(toEmail);
+        MimeMessage emailForm = createEmailFormPassword(requestDto.email());
         //실제 메일 전송
         emailSender.send(emailForm);
 
-        return authNum; //인증 코드 반환
+        return emailRepository.save(requestDto.toEntity(authNum)); //인증 코드 db 저장
     }
 
-
-
+    public Email emailCheck(String check) {
+        return null;
+    }
 }

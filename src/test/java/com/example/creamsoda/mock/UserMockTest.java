@@ -5,6 +5,7 @@ import com.example.creamsoda.example.UserExample;
 import com.example.creamsoda.module.user.controller.UserController;
 import com.example.creamsoda.module.user.dto.UserJoinRequest;
 import com.example.creamsoda.module.user.dto.UserLoginRequest;
+import com.example.creamsoda.module.email.service.EmailService;
 import com.example.creamsoda.module.user.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
@@ -37,6 +38,9 @@ public class UserMockTest {
 
     @MockBean
     private UserService userService;
+
+    @MockBean
+    private EmailService emailService;
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
@@ -95,6 +99,7 @@ public class UserMockTest {
 
         ;
     }
+
 
     @Test
     @DisplayName("[실패] 로그인 (Valid 오류)")

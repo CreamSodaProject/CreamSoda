@@ -12,7 +12,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "SCHEDULE")
+@Table(name = "TODOLIST")
 public class TodoList {
 
     @Id
