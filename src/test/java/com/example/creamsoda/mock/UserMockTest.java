@@ -39,9 +39,6 @@ public class UserMockTest {
     @MockBean
     private UserService userService;
 
-    @MockBean
-    private EmailService emailService;
-
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Test

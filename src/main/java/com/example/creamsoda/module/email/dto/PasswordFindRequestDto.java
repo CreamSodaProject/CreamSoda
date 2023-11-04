@@ -9,6 +9,6 @@ public record PasswordFindRequestDto(
 ) {
 
     public Email toEntity(String authNum) {
-        return new Email(null, email, authNum, EmailType.PASSWORD);
+        return new Email(email, authNum, EmailType.PASSWORD, "Y");
     }
 }

@@ -47,7 +47,7 @@ public class UserControllerTest extends AbstractIntegrated{
     @DisplayName("[성공] 유저 회원가입 테스트")
     void userJoin() throws Exception {
 
-        UserJoinRequest joinDTO = new UserJoinRequest("ho@naver.com", "1234", "ho");
+        UserJoinRequest joinDTO = new UserJoinRequest("khh5762@naver.com", "1234", "ho");
 
 
         ResultActions perform = this.mockMvc.perform(
@@ -99,7 +99,7 @@ public class UserControllerTest extends AbstractIntegrated{
     @DisplayName("[성공] 유저 로그인 테스트")
     void userLogin() throws Exception {
 
-        UserLoginRequest loginDTO = new UserLoginRequest("David@naver.com", "1234");
+        UserLoginRequest loginDTO = new UserLoginRequest("khh5762@naver.com", "1234");
 
 
         ResultActions perform = this.mockMvc.perform(
@@ -134,6 +134,7 @@ public class UserControllerTest extends AbstractIntegrated{
                 fieldWithPath("email").description("유저 이메일"),
                 fieldWithPath("password").description("유저 비밀번호"),
                 fieldWithPath("name").description("유저 이름"),
+                fieldWithPath("profile").description("유저 프로필사진"),
                 fieldWithPath("createdDate").description("가입 시간"),
                 fieldWithPath("modifiedDate").description("수정 시간"),
         };
@@ -151,6 +152,7 @@ public class UserControllerTest extends AbstractIntegrated{
                 fieldWithPath("id").description("유저 id"),
                 fieldWithPath("email").description("유저 이메일"),
                 fieldWithPath("password").description("유저 비밀번호"),
+                fieldWithPath("profile").description("유저 프로필사진"),
                 fieldWithPath("name").description("유저 이름"),
                 fieldWithPath("createdDate").description("가입 시간"),
                 fieldWithPath("modifiedDate").description("수정 시간"),

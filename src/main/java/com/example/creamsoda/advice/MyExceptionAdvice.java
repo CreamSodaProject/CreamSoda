@@ -1,10 +1,6 @@
 package com.example.creamsoda.advice;
 
-import com.example.creamsoda.exception.Exception400;
-import com.example.creamsoda.exception.Exception401;
-import com.example.creamsoda.exception.Exception403;
-import com.example.creamsoda.exception.Exception404;
-import com.example.creamsoda.exception.Exception500;
+import com.example.creamsoda.exception.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ProblemDetail;

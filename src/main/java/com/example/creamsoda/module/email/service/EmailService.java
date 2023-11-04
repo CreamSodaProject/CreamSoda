@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.UnsupportedEncodingException;
 import java.security.SecureRandom;
+import java.util.Optional;
 import java.util.Random;
 
 @Service
@@ -83,7 +84,7 @@ public class EmailService {
         message.setSubject(title); //제목 설정
         message.setFrom(setFrom); //보내는 이메일
         message.setText(
-                " <p><strong>Cream Soda 회원가입 인증 번호 : </strong><span class=\"auth-num\">authNum</span></p>\n" +
+                " <p><strong>Cream Soda 회원가입 인증 번호 : </strong><span class=\"auth-num\"> "+authNum+" </span></p>\n" +
                         "        <p>이용해 주셔서 감사합니다.</p>\n" +
                         "        <p>다음 단계를 진행해주세요.</p>"
                 , "utf-8", "html");
@@ -117,12 +118,15 @@ public class EmailService {
     
         //메일전송에 필요한 정보 설정
         MimeMessage emailForm = createEmailForm(requestDto.email());
+        //인증 코드 db 저장
+        Email email = emailRepository.save(requestDto.toEntity(authNum));
         //실제 메일 전송
         emailSender.send(emailForm);
 
-        return emailRepository.save(requestDto.toEntity(authNum)); //인증 코드 db 저장
+        return email;
     }
 
+    @Transactional
     //실제 메일 전송
     public Email sendPassword(PasswordFindRequestDto requestDto) throws MessagingException, UnsupportedEncodingException {
 
@@ -134,7 +138,22 @@ public class EmailService {
         return emailRepository.save(requestDto.toEntity(authNum)); //인증 코드 db 저장
     }
 
-    public Email emailCheck(String check) {
-        return null;
+    public Optional<Email> emailCheck(String email, String authNum) {
+        return emailRepository.findByEmailAndAuthNum(email, authNum);
+    }
+
+    public Optional<Email> authNumCheck(String check) {
+        return emailRepository.findByAuthNum(check);
+    }
+
+    @Transactional
+    public Email updateEmail(EmailAuthRequestDto emailDto) throws MessagingException, UnsupportedEncodingException {
+
+        //메일전송에 필요한 정보 설정
+        MimeMessage emailForm = createEmailForm(emailDto.email());
+        //실제 메일 전송
+        emailSender.send(emailForm);
+
+        return emailRepository.save(emailDto.toEntity(authNum));
     }
 }

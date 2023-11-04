@@ -40,7 +40,10 @@ public class UserService {
             }
         }
         return optional;
+    }
 
+    public Optional<User> getEmailUser(String email) {
+        return userRepository.findByEmail(email);
     }
 
     public Optional<User> getUser(Integer id) {

@@ -1,5 +1,6 @@
 package com.example.creamsoda.module.schdule.model;
 
+import com.example.creamsoda.common.BaseTime;
 import com.example.creamsoda.module.day.model.Day;
 import com.example.creamsoda.module.file.model.FileInfo;
 import com.example.creamsoda.module.participant.model.Participant;
@@ -22,7 +23,7 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @Table(name = "SCHEDULE")
-public class Schedule {
+public class Schedule extends BaseTime {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

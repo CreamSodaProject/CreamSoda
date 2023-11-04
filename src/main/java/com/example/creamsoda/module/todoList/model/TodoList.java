@@ -1,5 +1,6 @@
 package com.example.creamsoda.module.todoList.model;
 
+import com.example.creamsoda.common.BaseTime;
 import com.example.creamsoda.module.schdule.model.Schedule;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -13,7 +14,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Entity
 @Table(name = "TODOLIST")
-public class TodoList {
+public class TodoList extends BaseTime {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

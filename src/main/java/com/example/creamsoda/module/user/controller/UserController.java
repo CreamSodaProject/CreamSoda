@@ -34,6 +34,12 @@ public class UserController {
             throw new Exception400(result.getAllErrors().get(0).getDefaultMessage());
         }
 
+        Optional<User> optionalUser = userService.getEmailUser(request.email());
+
+        if (optionalUser.isPresent()) {
+            throw new Exception400("회원가입 내역이 있는 유저입니다.");
+        }
+
         User user = userService.userJoin(request);
 
         return ResponseEntity.ok().body(user);
