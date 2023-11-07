@@ -6,8 +6,6 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import java.time.LocalDateTime;
 public record CheckRequest(
         String email,
-        String check,
-        @JsonSerialize(using = LocalDateTimeSerializer.class)
-        LocalDateTime time
+        String check
 ) {
 }

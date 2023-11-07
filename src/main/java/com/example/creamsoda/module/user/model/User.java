@@ -2,9 +2,9 @@ package com.example.creamsoda.module.user.model;
 
 import com.example.creamsoda.common.BaseTime;
 import com.example.creamsoda.module.file.model.FileInfo;
-import com.example.creamsoda.module.schdule.model.Schedule;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.Comment;
 
 @Entity
@@ -28,6 +28,9 @@ public class User extends BaseTime {
     @Comment("프로필사진")
     @ManyToOne
     private FileInfo profile;
+    @Comment("캘린더유무")
+    @ColumnDefault("N")
+    private String useYn;
 
 
     public User(String email, String password, String name) {

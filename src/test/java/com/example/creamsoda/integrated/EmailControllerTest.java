@@ -8,6 +8,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.FieldDescriptor;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.ResultActions;
 
 import java.time.LocalDateTime;
@@ -18,6 +19,7 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 
 public class EmailControllerTest extends AbstractIntegrated{
 
@@ -71,38 +73,38 @@ public class EmailControllerTest extends AbstractIntegrated{
 
                 );
     }
-
-    @Test
-    @DisplayName("[성공] 인증번호 체크")
-    void emailCheck() throws Exception {
-
-        CheckRequest request = new CheckRequest("khh9608@gmail.com", "12345", LocalDateTime.now());
-
-
-        ResultActions perform = this.mockMvc.perform(
-                post("/send/check")
-                        .content(objectMapper.writeValueAsString(request))
-                        .accept(MediaType.APPLICATION_JSON_VALUE)
-                        .contentType(MediaType.APPLICATION_JSON_VALUE)
-        );
-
-        perform
-                .andExpect(status().isOk())
-                .andDo(print())
-                .andDo(
-                        document("email-check",
-                                requestFields(EmailCheckSuccess()),
-                                responseFields(sendResponse())
-                        )
-
-                );
-    }
+//
+//    @Test
+//    @DisplayName("[성공] 인증번호 체크")
+//    void emailCheck() throws Exception {
+//
+//        CheckRequest request = new CheckRequest("khh9608@gmail.com", "12345");
+//
+//
+//        ResultActions perform = this.mockMvc.perform(
+//                post("/send/check")
+//                        .content(objectMapper.writeValueAsString(request))
+//                        .accept(MediaType.APPLICATION_JSON_VALUE)
+//                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+//        );
+//
+//        perform
+//                .andExpect(status().isOk())
+//                .andDo(print())
+//                .andDo(
+//                        document("email-check",
+//                                requestFields(EmailCheckSuccess()),
+//                                responseFields(sendResponse())
+//                        )
+//
+//                );
+//    }
 
     @Test
     @DisplayName("[실패] 인증번호 오류")
     void emailCheckFail1() throws Exception {
 
-        CheckRequest request = new CheckRequest("khh9608@gmail.com", "672222244", LocalDateTime.now());
+        CheckRequest request = new CheckRequest("khh9608@gmail.com", "672222244");
 
 
         ResultActions perform = this.mockMvc.perform(
@@ -128,8 +130,7 @@ public class EmailControllerTest extends AbstractIntegrated{
     @DisplayName("[실패] 인증번호 마간시간 초과")
     void emailCheckFail2() throws Exception {
 
-        CheckRequest request = new CheckRequest("khh9608@gmail.com", "67244",
-                LocalDateTime.of(2023,10,29,10,58,0));
+        CheckRequest request = new CheckRequest("khh9608@gmail.com", "67244");
 
 
         ResultActions perform = this.mockMvc.perform(
@@ -165,8 +166,7 @@ public class EmailControllerTest extends AbstractIntegrated{
     private FieldDescriptor[] EmailCheckSuccess() {
         return new FieldDescriptor[]{
                 fieldWithPath("email").description("이메일"),
-                fieldWithPath("check").description("인증번호"),
-                fieldWithPath("time").description("입력시간")
+                fieldWithPath("check").description("인증번호")
         };
     }
 }

@@ -3,18 +3,6 @@ server:
     encoding:
       charset: utf-8
       force: true
-#cloud:
-#  aws:
-#    region:
-#      static: ap-northeast-2
-#      auto: false
-#    s3:
-#      bucket: sideairbnb
-#    credentials:
-#      access-key: AKIAQQ5QPUSNSEQEQN6V
-#      secret-key: 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
-#    stack:
-#      auto: false
 spring:
   datasource:
     url: jdbc:mysql://ls-1692012060d918e6f1e798358c98026076d919c1.c9w0jf95oc7r.ap-northeast-2.rds.amazonaws.com:3306/cream-soda?serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true
